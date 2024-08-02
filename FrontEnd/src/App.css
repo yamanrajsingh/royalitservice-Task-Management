@@ -1,0 +1,47 @@
+button {
+  margin-left: 8px;
+}
+.lgn-heading {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.frm {
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 5%;
+  padding: 2%;
+  border: 2px solid #196c0c;
+  border-radius: 7px;
+}
+
+.lgn-btn {
+  width: 40%;
+  margin-left: 25%;
+}
+
+.new-account-link {
+  margin-left: 29%;
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+}
+.card {
+  position: relative;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 3%;
+  padding: 2%;
+  height: 90%;
+  border: 2px solid #196c0c;
+}
+
+.st-btn {
+  float: left;
+  width: 20%;
+}
+.up-btn {
+  float: right;
+  width: 20%;
+}
