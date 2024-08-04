@@ -6,6 +6,7 @@ dotenv.config();
 
 http.createServer(app);
 app.listen(3000, () => {
+  
   connectDB( 
     process.env.MONOGO_URL
   );

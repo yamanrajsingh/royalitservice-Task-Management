@@ -7,10 +7,13 @@ const jwt = require("jsonwebtoken");
 const User = require("./Database/models/User");
 const Task = require("./Database/models/Task");
 
+const bodyParser = require("body-parser");
+
 const Auth = require("./middleware/Auth");
 
 const app = express();
 
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
@@ -65,7 +68,7 @@ app.post("/signin", (req, res, next) => {
               expiresIn: "24h",
             }
           );
-          return res.json({ token: token });
+          return res.json({ token: token, name: user.username });
         } else {
           return res.status(401).json({ error: "Invalid password" }); // Return if password is incorrect
         }
@@ -76,7 +79,7 @@ app.post("/signin", (req, res, next) => {
     });
 });
 
-app.post("/tasks", Auth, (req, res, next) => {
+app.post("/tasks", (req, res, next) => {
   const newTask = new Task({
     _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
@@ -94,7 +97,7 @@ app.post("/tasks", Auth, (req, res, next) => {
     });
 });
 
-app.get("/tasks", Auth, (req, res, next) => {
+app.get("/tasks", (req, res, next) => {
   Task.find()
     .then((result) => {
       res.json(result);
@@ -104,7 +107,7 @@ app.get("/tasks", Auth, (req, res, next) => {
     });
 });
 
-app.get("/tasks/:id", Auth, (req, res, next) => {
+app.get("/tasks/:id", (req, res, next) => {
   const id = req.params.id;
   Task.findById(id)
     .then((result) => {
@@ -115,7 +118,7 @@ app.get("/tasks/:id", Auth, (req, res, next) => {
     });
 });
 
-app.put("/tasks/:id", Auth, (req, res, next) => {
+app.put("/tasks/:id", (req, res, next) => {
   const id = req.params.id;
   Task.findOneAndUpdate(
     { _id: id },
@@ -136,7 +139,7 @@ app.put("/tasks/:id", Auth, (req, res, next) => {
     });
 });
 
-app.delete("/tasks/:id", Auth, (req, res, next) => {
+app.delete("/tasks/:id", (req, res, next) => {
   const id = req.params.id;
   Task.findByIdAndDelete(id)
     .then((result) => {

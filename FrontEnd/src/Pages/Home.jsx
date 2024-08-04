@@ -1,42 +1,62 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Card, Button } from "flowbite-react";
 
 function Home({ Todo }) {
   const navigate = useNavigate();
 
+  const itemDelete = (id) => {
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        navigate("/");
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
-    <div>
-      <div className="row">
-        {Todo.map((todo) => (
-          <div className="col-sm-6 mb-3 mb-sm-0" key={todo.id}>
-            <div className="card">
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                X
-              </span>
-              <div className="card-body">
-                <h5 className="card-title">{todo.title}</h5>
-                <p className="card-text">{todo.description}</p>
-                <p className="card-text">
-                  {" "}
-                  <b> Due Date</b> : {todo.reviews[0].date}
-                </p>
-                <a href="#" className="btn btn-success st-btn">
-                  {todo.category}
-                </a>
-                <button
-                  className="btn btn-primary up-btn"
-                  onClick={() => {
-                    navigate("/update/" + todo.id);
-                  }}
-                >
-                  Update
-                </button>
-              </div>
-            </div>
+    <>
+      {Todo.map((todo) => (
+        <Card className="max-w-sm" key={todo._id}>
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {todo.title}
+          </h5>
+
+          <h6 className="font-normal text-gray-700 dark:text-gray-400">
+            {todo.description}
+          </h6>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            Due Date: {todo.date}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            <Button.Group outline>
+              <Button color="yellow">
+                {todo.status ? "Completed" : "Pending"}
+              </Button>
+              <Button
+                color="green"
+                onClick={() => {
+                  navigate("/update/" + todo._id);
+                }}
+              >
+                Update
+              </Button>
+              <Button
+                color="red"
+                onClick={() => {
+                  itemDelete(todo._id);
+                }}
+              >
+                Delete
+              </Button>
+            </Button.Group>
           </div>
-        ))}
-      </div>
-    </div>
+        </Card>
+      ))}
+    </>
   );
 }
 

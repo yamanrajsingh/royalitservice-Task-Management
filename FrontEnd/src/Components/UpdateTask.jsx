@@ -1,87 +1,150 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  TextInput,
+  Label,
+  Textarea,
+  Button,
+  Select,
+  Alert,
+} from "flowbite-react";
 
 function UpdateTask() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [date, setDate] = useState("");
+  const [error, setError] = useState(false);
 
   const params = useParams();
-  fetch(`https://dummyjson.com/products/${params.id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setTitle(data.title);
-      setDescription(data.description);
-      setStatus(data.category);
-      setDate("2002-10-12");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/tasks/${params.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTitle(data.title);
+        setDescription(data.description);
+        setStatus(data.status ? "true" : "false");
+        setDate(new Date(data.date).toISOString().split("T")[0]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [params.id]);
+
+  const handleUpdateTask = (e) => {
+    e.preventDefault();
+    if (!title || !description || !status || !date) {
+      setError(true);
+      return;
     }
-);
-
-
+    fetch(`http://localhost:3000/tasks/${params.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        status: status === "true",
+        date,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Task updated successfully", data);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error("Failed to update task:", err);
+      });
+  };
 
   return (
-    <div>
-      <h1 className="lgn-heading">Add Task</h1>
-      <div className="frm">
-        <form>
-          <div className="mb-3">
-            <label for="exampleInputEmail1" className="form-label">
-              Title
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Title here..."
-              aria-describedby="emailHelp"
-              value={title}
-            />
+    <div className="container">
+      <h1 className="task-heading">Add Task</h1>
+      <form
+        className="flex max-w-md flex-col gap-4"
+        onSubmit={handleUpdateTask}
+      >
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" value="Enter Title" />
           </div>
-          <div className="mb-3">
-            <label for="exampleInputPassword1" className="form-label">
-              Description
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="exampleInputPassword1"
-              placeholder="Enter description here..."
-              value={description}
-            />
+          <TextInput
+            id="email1"
+            type="text"
+            placeholder="Red Lipstick"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          {error && !title && (
+            <Alert color="failure">
+              <span className="font-medium"> Please Enter Title</span>
+            </Alert>
+          )}
+        </div>
+        <div className="max-w-md">
+          <div className="mb-2 block">
+            <Label htmlFor="comment" value="Your Description" />
           </div>
-          <div className="mb-3">
-            <label for="exampleInputPassword1" className="form-label">
-              Status
-            </label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              
-            >
-              <option selected>{status.length>0 ? status :
-                "Open this to select status"}</option>
-              <option value="1">Compeleted</option>
-              <option value="2">Pending</option>
-            </select>
-          </div>
-          <div className="mb-3">
-            <label for="exampleInputPassword1" className="form-label">
-              Date
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id="exampleInputPassword1"
-              value={date}
-            />
-          </div>
+          <Textarea
+            id="comment"
+            placeholder="The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish."
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          {error && !description && (
+            <Alert color="failure">
+              <span className="font-medium">Please Enter Description</span>
+            </Alert>
+          )}
+        </div>
 
-          <button type="submit" className="btn btn-success lgn-btn">
-            Update Task
-          </button>
-        </form>
-      </div>
+        <div className="max-w-md">
+          <div className="mb-2 block">
+            <Label htmlFor="countries" value="Select your Status" />
+          </div>
+          <Select
+            id="countries"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option>Completed</option>
+            <option>Pending</option>
+          </Select>
+          {error && !status && (
+            <Alert color="failure">
+              <span className="font-medium">Please Select Task Status</span>
+            </Alert>
+          )}
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" value="Enter Date" />
+          </div>
+          <TextInput
+            id="email1"
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          {error && !date && (
+            <Alert color="failure">
+              <span className="font-medium">Please Select Date</span>
+            </Alert>
+          )}
+        </div>
+
+        <Button type="submit">Update Task</Button>
+      </form>
     </div>
   );
 }

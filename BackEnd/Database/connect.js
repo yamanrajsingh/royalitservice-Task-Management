@@ -5,7 +5,7 @@ const connectDB = (url) => {
     .then(() => {
       console.log("DataBase Connection Successfull...");
     })
-    .catch(() => {
+    .catch((err) => {
       console.log("DataBase Connection Error...");
     });
 };

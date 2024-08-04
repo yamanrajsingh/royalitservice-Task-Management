@@ -1,63 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { TextInput, Button, Label, Alert } from "flowbite-react";
 
 function Register() {
-  return (
-    <div>
-      <h1 className="lgn-heading">Registration</h1>
-      <div className="frm">
-        <form>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Full Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Phone Number
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState(false);
 
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="exampleInputPassword1"
-            />
+  const registerHandler = (e) => {
+    e.preventDefault();
+    if (name && email && password && phone) {
+      axios
+        .post("http://localhost:3000/signup", {
+          username: name,
+          email: email,
+          password: password,
+          phonenumber: phone,
+        })
+        .then((res) => {
+          console.log(res);
+          navigate("/signin");
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(true);
+        });
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <div className="container">
+      <h1 className="register-heading">Registration</h1>
+
+      <form className="flex max-w-md flex-col gap-4" onSubmit={registerHandler}>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" value="Your Name" />
           </div>
-          <button type="submit" className="btn btn-success lgn-btn ">
-            Create an Account
-          </button>
-          {/* <button type="submit" className="btn btn-primary lgn-btn ">
-         Login
-          </button> */}
-        </form>
-      </div>
+          <TextInput
+            id="email1"
+            type="text"
+            placeholder="Yaman Raj Singh"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          {error && !name && (
+            <Alert color="failure">
+              <span className="font-medium"> Please Enter Your Name</span>
+            </Alert>
+          )}
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" value="Your email" />
+          </div>
+          <TextInput
+            id="email1"
+            type="email"
+            placeholder="xyz@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {error && !email && (
+            <Alert color="failure">
+              <span className="font-medium"> Please Enter Email</span>
+            </Alert>
+          )}
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="password1" value="Your password" />
+          </div>
+          <TextInput
+            id="password1"
+            type="password"
+            placeholder="***********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && !password && (
+            <Alert color="failure">
+              <span className="font-medium"> Please Enter Password</span>
+            </Alert>
+          )}
+        </div>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email1" value="Your Contact Number" />
+          </div>
+          <TextInput
+            id="email1"
+            type="number"
+            placeholder="+91 8445899130"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          {error && !phone && (
+            <Alert color="failure">
+              <span className="font-medium"> Please Enter Contact Number</span>
+            </Alert>
+          )}
+        </div>
+        <Button type="submit">Login</Button>
+        {error && email && name && phone && password && (
+          <Alert color="failure">
+            <span className="font-medium">Email id Already Exists ! </span>
+          </Alert>
+        )}
+      </form>
     </div>
   );
 }
