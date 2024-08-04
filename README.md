@@ -36,26 +36,26 @@ A task management application to create, read, update, and delete tasks. Each ta
 1. **Clone the Repository**
 
      **For Front-End**
-   git clone https://github.com/yamanrajsingh/royalitservice-Task-Management.git
-   cd royalitservice-Task-Management
-   cd FrontEnd
-   npm install
+  - git clone https://github.com/yamanrajsingh/royalitservice-Task-Management.git
+  - cd royalitservice-Task-Management
+  - cd FrontEnd
+  - npm install
 
    **For Back-End**
-   cd BackEnd
-   npm install
+ -  cd BackEnd
+ -  npm install
    
 3. **Running the Application**
-   npm run dev - FrontEnd
-   nodemon - BackEnd
+  - npm run dev - FrontEnd
+  - nodemon - BackEnd
 
 ### API Endpoints
 
-   GET /tasks: Fetch all tasks
-   GET /tasks/:id: Fetch a specific task by ID
-   POST /tasks: Create a new task
-   PUT /tasks/:id: Update an existing task by ID
-   DELETE /tasks/:id: Delete a task by ID
+  - GET /tasks: Fetch all tasks
+  - GET /tasks/:id: Fetch a specific task by ID
+  - POST /tasks: Create a new task
+  - PUT /tasks/:id: Update an existing task by ID
+  - DELETE /tasks/:id: Delete a task by ID
 
 
 
