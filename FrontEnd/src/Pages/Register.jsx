@@ -36,7 +36,7 @@ function Register() {
 
   return (
     <div className="container">
-      <h1 className="register-heading">Registration</h1>
+      <h1 className="task-heading">Registration</h1>
 
       <form className="flex max-w-md flex-col gap-4" onSubmit={registerHandler}>
         <div>
@@ -51,8 +51,8 @@ function Register() {
             onChange={(e) => setName(e.target.value)}
           />
           {error && !name && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Your Name</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Your Name</span>
             </Alert>
           )}
         </div>
@@ -68,8 +68,8 @@ function Register() {
             onChange={(e) => setEmail(e.target.value)}
           />
           {error && !email && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Email</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Email</span>
             </Alert>
           )}
         </div>
@@ -85,8 +85,8 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && !password && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Password</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Password</span>
             </Alert>
           )}
         </div>
@@ -102,15 +102,15 @@ function Register() {
             onChange={(e) => setPhone(e.target.value)}
           />
           {error && !phone && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Contact Number</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Contact Number</span>
             </Alert>
           )}
         </div>
-        <Button type="submit">Login</Button>
+        <Button type="submit">Register</Button>
         {error && email && name && phone && password && (
-          <Alert color="failure">
-            <span className="font-medium">Email id Already Exists ! </span>
+          <Alert color="failure" className="font-medium">
+            <span >Email id Already Exists ! </span>
           </Alert>
         )}
       </form>

@@ -68,7 +68,7 @@ function UpdateTask() {
 
   return (
     <div className="container">
-      <h1 className="task-heading">Add Task</h1>
+      <h1 className="task-heading">Update Task</h1>
       <form
         className="flex max-w-md flex-col gap-4"
         onSubmit={handleUpdateTask}

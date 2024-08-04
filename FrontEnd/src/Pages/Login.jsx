@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <div className="container">
-      <h1 className="login-heading">Login</h1>
+      <h1 className="task-heading">Login</h1>
 
       <form className="flex max-w-md flex-col gap-4" onSubmit={loginHandler}>
         <div>
@@ -44,8 +44,8 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
           {error && !email && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Email</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Email</span>
             </Alert>
           )}
         </div>
@@ -61,15 +61,15 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && !password && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Password</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Password</span>
             </Alert>
           )}
         </div>
         <Button type="submit">Login</Button>
-        {error && (
-          <Alert color="failure">
-            <span className="font-medium">Wrong Email And Password ! </span>
+        {error && email && password (
+          <Alert color="failure" className="font-medium">
+            <span >Wrong Email And Password ! </span>
             Please type correct email and password
           </Alert>
         )}

@@ -67,8 +67,8 @@ function AddTask() {
             onChange={(e) => setTitle(e.target.value)}
           />
           {error && !title && (
-            <Alert color="failure">
-              <span className="font-medium"> Please Enter Title</span>
+            <Alert color="failure" className="font-medium">
+              <span > Please Enter Title</span>
             </Alert>
           )}
         </div>
@@ -84,8 +84,8 @@ function AddTask() {
             onChange={(e) => setDescription(e.target.value)}
           />
           {error && !description && (
-            <Alert color="failure">
-              <span className="font-medium">Please Enter Description</span>
+            <Alert color="failure" className="font-medium">
+              <span >Please Enter Description</span>
             </Alert>
           )}
         </div>
@@ -103,8 +103,8 @@ function AddTask() {
             <option>Pending</option>
           </Select>
           {error && !status && (
-            <Alert color="failure">
-              <span className="font-medium">Please Select Task Status</span>
+            <Alert color="failure" className="font-medium">
+              <span >Please Select Task Status</span>
             </Alert>
           )}
         </div>
@@ -119,8 +119,8 @@ function AddTask() {
             onChange={(e) => setDate(e.target.value)}
           />
           {error && !date && (
-            <Alert color="failure">
-              <span className="font-medium">Please Select Date</span>
+            <Alert color="failure" className="font-medium">
+              <span   >Please Select Date</span>
             </Alert>
           )}
         </div>

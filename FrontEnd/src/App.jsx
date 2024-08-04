@@ -6,25 +6,27 @@ import AddTask from "./Pages/AddTask";
 import Home from "./Pages/Home";
 import { useEffect, useState } from "react";
 import UpdateTask from "./Components/UpdateTask";
-import PrivateComponenet from "./Components/PrivateComponent"
+import PrivateComponenet from "./Components/PrivateComponent";
+
 function App() {
   const [Todo, SetTodo] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch("http://localhost:3000/tasks/")
-    .then((res) => res.json())
-    .then((data) => SetTodo(data));
-  },[]);
-  
+      .then((res) => res.json())
+      .then((data) => SetTodo(data));
+  }, []);
+
   return (
     <>
       <BrowserRouter>
-        <Nav/>
+        <Nav Todo ={Todo} />
+       
         <Routes>
-        <Route element={<PrivateComponenet></PrivateComponenet>}>
-          <Route path="/" element={<Home Todo={Todo} />} />
-          <Route path="/add" element={<AddTask />} />
-          <Route path="/update/:id" element={<UpdateTask />} />
+          <Route element={<PrivateComponenet />}>
+            <Route path="/" element={<Home Todo={Todo} />} />
+            <Route path="/add" element={<AddTask />} />
+            <Route path="/update/:id" element={<UpdateTask />} />
           </Route>
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Register />} />
